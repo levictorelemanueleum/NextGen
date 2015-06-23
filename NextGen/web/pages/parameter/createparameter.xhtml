@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <h:outputStylesheet name="css/style.css"/>
+        <f:event type="preRenderView" listener="#{sessionController.verifySession2()}"/>
+        <title>#{conf.CreateParameterTitle}</title>
+    </h:head>
+    <ui:composition template="../../templates/master.xhtml">
+        
+        <ui:define name="top">
+            <ui:include src="../../folder/top.xhtml"/>
+        </ui:define>
+        
+        <ui:define name="menu">
+            <ui:include src="../../folder/menu.xhtml"/>
+        </ui:define>
+
+        <ui:define name="left">
+            <p:outputPanel layout="block" styleClass="ui-grid-col-12" >
+                <h:form>
+                    <b:buttonGroup>
+                        <b:commandButton action="#{parameterController.prepareList}"  look="success" size="sm"
+                                         value="#{conf.ParameterShowAllLink}" ajax="false"/>
+                    </b:buttonGroup>
+                </h:form>
+            </p:outputPanel>
+        </ui:define>
+        
+        <ui:define name="title">
+            <h:outputText value="#{conf.CreateParameterTitle}" />
+        </ui:define>
+        <ui:define name="content">
+            <p:separator></p:separator>
+            <h:panelGroup id="messagePanel" layout="block">
+                <p:messages closable="true"/>
+            </h:panelGroup>
+            
+            <h:form>
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="#{conf.ParameterLabel_type}" for="type" />
+                    <p:selectOneMenu id="type" value="#{parameterController.selected.type}" 
+                                 required="true" 
+                                 requiredMessage="#{conf.ParameterRequiredMessage_type}">
+                        <f:selectItem value="#{additionalData.params[0]}"/>
+                    </p:selectOneMenu>
+                    
+                    <p:outputLabel value="#{conf.ParameterLabel_description}" for="description" />
+                    <p:inputText id="description" 
+                                 value="#{parameterController.selected.description}" 
+                                 title="#{conf.ParameterTitle_description}" 
+                                 style="text-transform: uppercase"
+                                 required="true" maxlength="50" styleClass="input"
+                                 requiredMessage="#{conf.ParameterRequiredMessage_description}"/>
+                    
+                    <p:outputLabel value="#{conf.ParameterLabel_value}" for="value" />
+                    <pe:inputNumber id="value" value="#{parameterController.value}" 
+                                    title="#{conf.ParameterTitle_value}" required="true"
+                                    requiredMessage="#{conf.ParameterRequiredMessage_value}" 
+                                    minValue="0.0" maxValue="100.00" symbol=" %" 
+                                    symbolPosition="s" maxlength="7"/>
+                    <p:column/>
+                    <p:commandButton styleClass="btn" ajax="false" value="#{conf.SaveBtn}" action="#{parameterController.create}" />
+                </h:panelGrid>
+                
+            </h:form>
+        </ui:define>
+        
+        <ui:define name="bottom">
+            <ui:include src="../../folder/bottom.xhtml"/>
+        </ui:define>
+        
+    </ui:composition>
+
+</html>

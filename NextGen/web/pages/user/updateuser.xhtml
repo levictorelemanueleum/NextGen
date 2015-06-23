@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <h:outputStylesheet name="css/style.css"/>
+        <f:event type="preRenderView" listener="#{sessionController.verifySession2()}"/>
+        <title>#{conf.UpdateUserTitle}</title>
+    </h:head>
+    <ui:composition template="../../templates/master.xhtml">
+        
+        <ui:define name="top">
+            <ui:include src="../../folder/top.xhtml"/>
+        </ui:define>
+        
+        <ui:define name="menu">
+            <ui:include src="../../folder/menu.xhtml"/>
+        </ui:define>
+
+        <ui:define name="left">
+            <p:outputPanel layout="block" styleClass="ui-grid-col-12" >
+                <h:form>
+                    <b:buttonGroup>
+                        <b:commandButton action="#{userController.prepareView(userController.selected.iduser)}" 
+                                         value="#{conf.ViewLink}" ajax="false" look="success" size="sm"/>
+                        <b:commandButton  action="#{userController.prepareList}" value="#{conf.UserShowAllLink}" 
+                                          ajax="false" look="success" size="sm"/>
+                    </b:buttonGroup>
+                </h:form>
+            </p:outputPanel>
+        </ui:define>
+        
+        <ui:define name="title">
+            <h:outputText value="#{conf.UpdateUserTitle}" />
+        </ui:define>
+        <ui:define name="content">
+            <p:separator></p:separator>
+            <h:panelGroup id="messagePanel" layout="block">
+                <p:messages closable="true"/>
+            </h:panelGroup>
+            
+            <h:form>
+            <h:panelGrid columns="2">
+                
+                    <p:outputLabel value="#{conf.UserLabel_user}" for="user" />
+                    <p:inputText id="user" value="#{userController.selected.user}"
+                                 title="#{conf.UserTitle_user}" 
+                                 required="true" requiredMessage="#{conf.UserRequiredMessage_user}" 
+                                 onkeydown="this.value = this.value.trim()"
+                                 validator="noBlankSpaceValidator"
+                                 maxlength="45"/>
+                    
+                    <p:outputLabel value="#{conf.UserLabel_name}" for="name" />
+                    <p:inputText id="name" value="#{userController.selected.name}"
+                                 title="#{conf.UserTitle_name}"
+                                 style="text-transform: uppercase" 
+                                 required="true" requiredMessage="#{conf.UserRequiredMessage_name}"
+                                 converter="UpperCaseConverter" styleClass="input"
+                                 maxlength="100"/>
+                    
+                    <p:column/>
+                    <p:commandButton styleClass="btn" ajax="false" action="#{userController.update()}" 
+                                     value="#{conf.UpdateBtn}"/>
+            </h:panelGrid>
+            </h:form>
+        </ui:define>
+        <ui:define name="bottom">
+            <ui:include src="../../folder/bottom.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <h:outputStylesheet name="css/style.css"/>
+        <f:event type="preRenderView" listener="#{sessionController.verifySession2()}"/>
+        <title>#{conf.CreateClientTitle}</title>
+    </h:head>
+    <ui:composition template="../../templates/master.xhtml">
+        
+        <ui:define name="top">
+            <ui:include src="../../folder/top.xhtml"/>
+        </ui:define>
+        
+        <ui:define name="menu">
+            <ui:include src="../../folder/menu.xhtml"/>
+        </ui:define>
+
+        <ui:define name="left">
+           <p:outputPanel layout="block" styleClass="ui-grid-col-12" >
+                <h:form>
+                    <b:buttonGroup>
+                        <b:commandButton action="#{clientController.prepareList}" look="success" size="sm" 
+                                         value="#{conf.ClientShowAllLink}" ajax="false"/>
+                    </b:buttonGroup>
+                </h:form>
+           </p:outputPanel>
+        </ui:define>
+        
+        <ui:define name="title">
+            <h:outputText value="#{conf.CreateClientTitle}"/>
+        </ui:define>
+        <ui:define name="content">
+            <p:separator></p:separator>
+            <h:panelGroup id="messagePanel" layout="block">
+                <p:messages closable="true"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="#{conf.ClientLabel_clientname}" for="clientname" />
+                    <p:inputText id="clientname" value="#{clientController.selected.clientname}" 
+                                 title="#{conf.ClientTitle_clientname}" required="true"  
+                                 style="text-transform: uppercase" maxlength="100"
+                                 converter="UpperCaseConverter"  styleClass="input"
+                                 requiredMessage="#{conf.ClientRequiredMessage_clientname}"/>
+                    
+                    <p:outputLabel value="#{conf.ClientLabel_fixedmarkup}" for="fixedmarkup" />
+                    <pe:inputNumber id="fixedmarkup" 
+                                symbol=" %" symbolPosition="s"
+                                value="#{clientController.selected.fixedmarkup}" 
+                                required="true" 
+                                requiredMessage="#{conf.ClientRequiredMessage_fixedmarkup}" 
+                                maxValue="100.00" minValue="0.00" maxlength="8"
+                                validatorMessage="#{conf.ClientValidatorMessage_fixedmarkup}"
+                                title="#{conf.ClientTitle_fixedmarkup}">
+                        <f:validateDoubleRange maximum="100.00" minimum="0.00"/>
+                    </pe:inputNumber>
+                    
+                    <p:outputLabel value="#{conf.ClientLabel_infomarkup}" for="infomarkup" />
+                    <p:selectOneMenu id="infomarkup" value="#{clientController.selected.infomarkup}" 
+                                     title="#{conf.ClientTitle_infomarkup}">
+                        <f:selectItems value="#{additionalData.infomarkups}"/>
+                    </p:selectOneMenu>
+                    
+                    <p:outputLabel value="#{conf.ClientLabel_otmarkup}" for="otmarkup"/>
+                    <p:selectOneRadio id="isotmarkup" value="#{clientController.isotmarkup}"  layout="pageDirection">
+                        <f:selectItem itemValue="0" itemLabel="Bill Rate + 1/2 Pay Rate"/>
+                        <f:selectItem itemValue="1" itemLabel="Percentaje"/>
+                        <p:ajax update="otmarkup" listener="#{clientController.upOtmarkup()}"/>
+                    </p:selectOneRadio>
+                    <p:column/>
+                    <pe:inputNumber id="otmarkup" 
+                                 symbol=" %"  symbolPosition="s"
+                                 value="#{clientController.otmarkup}"
+                                 required="true"
+                                 requiredMessage="#{conf.ClientRequiredMessage_otmarkup}"
+                                 disabled="#{clientController.isotmarkup==0}"
+                                 maxValue="100.00" minValue="0.00"
+                                 validatorMessage="#{conf.ClientValidatorMessage_otmarkup}"
+                                 title="#{conf.ClientTitle_otmarkup}">
+                        <f:validateDoubleRange maximum="100.00" minimum="0.0"/>
+                    </pe:inputNumber>
+                    
+                    <p:outputLabel value="#{conf.ClientLabel_otpaybill}" for="otpaybill" />
+                    <p:selectOneMenu id="otpaybill" value="#{clientController.selected.otpaybill}" 
+                                     title="#{conf.ClientTitle_otpaybill}">
+                        <f:selectItems value="#{additionalData.otpaybills}"/>
+                    </p:selectOneMenu>
+                    
+                    <p:outputLabel value="#{conf.ClientLabel_discount}" for="discount" />
+                    <pe:inputNumber id="discount" 
+                                 symbol=" %" symbolPosition="s" 
+                                 value="#{clientController.selected.discount}"
+                                 required="true" 
+                                 requiredMessage="#{conf.ClientRequiredMessage_discount}"
+                                 maxValue="100.00" minValue="0.00"
+                                 validatorMessage="#{conf.ClientValidatorMessage_discount}" 
+                                 title="#{conf.ClientTitle_discount}" >
+                        <f:validateDoubleRange maximum="100.00" minimum="0.0"/>
+                    </pe:inputNumber>
+                    
+                    <p:outputLabel value="#{conf.ClientLabel_idvms}" for="idvms" />
+                    <p:selectOneMenu id="idvms" title="#{conf.ClientTitle_idvms}" 
+                                     value="#{clientController.selected.idvms}">
+                        <f:selectItems value="#{additionalData.vmss}"/>
+                    </p:selectOneMenu>
+                    
+                    <p:outputLabel value="#{conf.ClientLabel_sub1099}" for="sub1099" />
+                    <p:selectOneMenu id="sub1099" title="#{conf.ClientTitle_sub1099}" 
+                                     value="#{clientController.selected.sub1099}">
+                        <f:selectItems value="#{additionalData.sub1099}"/>                        
+                    </p:selectOneMenu> 
+                    <p:column/>
+                    <p:commandButton styleClass="btn" ajax="false" value="#{conf.SaveBtn}" action="#{clientController.create}" />
+                    
+                </h:panelGrid>
+            </h:form>
+        </ui:define>
+        
+        <ui:define name="bottom">
+            <ui:include src="../../folder/bottom.xhtml"/>
+        </ui:define>
+        
+    </ui:composition>
+
+</html>

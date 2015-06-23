@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <h:outputStylesheet name="css/style.css"/>
+        <f:event type="preRenderView" listener="#{sessionController.verifySession2()}"/>
+        <title>#{conf.ViewClientTitle}</title>
+    </h:head>
+    <ui:composition template="../../templates/master.xhtml">
+        
+        <ui:define name="top">
+            <ui:include src="../../folder/top.xhtml"/>
+        </ui:define>
+        
+        <ui:define name="menu">
+            <ui:include src="../../folder/menu.xhtml"/>
+        </ui:define>
+
+        <ui:define name="left">
+            <p:outputPanel layout="block" styleClass="ui-grid-col-12" >
+                <h:form>
+                    <b:buttonGroup>
+                        <b:commandButton action="#{userController.prepareEdit(userController.selected.iduser)}" 
+                                         value="#{conf.UserUpdateLink}" ajax="false" look="success" size="sm"
+                                         rendered="#{loginController.selected.type=='1'}"/>
+                        <b:commandButton action="#{userController.prepareList}" value="#{conf.UserShowAllLink}" 
+                                         ajax="false" look="success" size="sm"/>
+                    </b:buttonGroup>
+                </h:form>
+            </p:outputPanel>
+        </ui:define>
+        
+        <ui:define name="title">
+            <h:outputText value="#{conf.ViewUserTitle}" />
+        </ui:define>
+        
+        <ui:define name="content">
+            <p:separator></p:separator>
+            <h:panelGroup id="messagePanel" layout="block">
+                <p:messages closable="true" />
+            </h:panelGroup>
+            
+            <h:panelGrid columns="2" styleClass="ui-panelgrid">
+                <h:outputText value="#{conf.UserLabel_iduser}" styleClass="labelview"/>
+                <h:outputText value="#{userController.selected.iduser}" title="#{conf.UserTitle_iduser}" styleClass="dataview"/>
+                <h:outputText value="#{conf.UserLabel_type}" styleClass="labelview"/>
+                <h:outputText value="#{userController.typedetail}" title="#{conf.UserTitle_type}" styleClass="dataview"/>
+                <h:outputText value="#{conf.UserLabel_user}" styleClass="labelview"/>
+                <h:outputText value="#{userController.selected.user}" title="#{conf.UserTitle_user}" styleClass="dataview"/>
+                <h:outputText value="#{conf.UserLabel_name}" styleClass="labelview"/>
+                <h:outputText value="#{userController.selected.name}" title="#{conf.UserTitle_name}" styleClass="dataview"/>
+            </h:panelGrid>
+            
+        </ui:define>
+        <ui:define name="bottom">
+            <ui:include src="../../folder/bottom.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

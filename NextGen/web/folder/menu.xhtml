@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+    
+    <h:head>
+        <h:outputStylesheet name="css/style.css"/>
+    </h:head>
+    <h:body>
+        <b:navBar fixed="top" brand="##{loginController.namedetail}" brandHref="#" id="navNextGen">
+            <b:navbarLinks>
+                <b:navLink value="Home" outcome="/index"/>
+                <b:navLink rendered="#{loginController.ismenu[0]==1}" value="User" outcome="/pages/user/listuser" icon=""/>
+                <b:navLink rendered="#{loginController.ismenu[2]==1}" value="State Cost" outcome="/pages/statecost/liststatecost"/>
+                <b:navLink rendered="#{loginController.ismenu[3]==1}" value="Client" outcome="/pages/client/listclient" icon="ui-icon-person"/>
+                <b:navLink rendered="#{loginController.ismenu[4]==1}" value="Candidate" outcome="/pages/candidate/listcandidate"/>
+                <b:navLink rendered="#{loginController.ismenu[5]==1}" value="Parameter" outcome="/pages/parameter/listparameter"/>
+                <b:navLink rendered="#{loginController.ismenu[6]==1}" value="Cost Sheet" outcome="/pages/costsheet/listcostsheet"/>
+                <b:navLink rendered="#{loginController.ismenu[7]==1}" value="Rate Calculator" outcome="/pages/costsheet/listcostsheet"/>
+            </b:navbarLinks>
+            <b:navbarLinks pull="right">
+                <b:navLink>
+                    <h:form>
+                        <h:commandLink styleClass="menu_item" value="#{conf.Logoff}" action="#{loginController.prepareExit()}"/>
+                    </h:form>
+                </b:navLink>     
+            </b:navbarLinks>
+        </b:navBar>
+        
+    </h:body>
+</html>

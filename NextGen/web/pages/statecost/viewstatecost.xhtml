@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <h:outputStylesheet name="css/style.css"/>
+        <f:event type="preRenderView" listener="#{sessionController.verifySession2()}"/>
+        <title>#{conf.ViewStatecostTitle}</title>
+    </h:head>
+        
+    <ui:composition template="../../templates/master.xhtml">
+        
+        <ui:define name="top">
+            <ui:include src="../../folder/top.xhtml"/>
+        </ui:define>
+        
+        <ui:define name="menu">
+            <ui:include src="../../folder/menu.xhtml"/>
+        </ui:define>
+
+        <ui:define name="left">
+            <p:outputPanel layout="block" styleClass="ui-grid-col-12" >
+                <h:form>
+                    <b:buttonGroup>
+                        <b:commandButton  action="#{statecostController.prepareEdit(statecostController.selected.idstatecost)}" 
+                                          value="#{conf.StatecostUpdateLink}" rendered="#{loginController.selected.type=='1'}"
+                                ajax="false" look="success" size="sm"/>
+                        <b:commandButton action="#{statecostController.prepareList}" 
+                                         value="#{conf.StatecostShowAllLink}" look="success" size="sm" ajax="false"/>
+                    </b:buttonGroup>
+                </h:form>
+            </p:outputPanel>
+        </ui:define>
+        
+        <ui:define name="title">
+            <h:outputText value="#{conf.ViewStatecostTitle}"></h:outputText>
+        </ui:define>
+        
+        <ui:define name="content">
+        <p:separator></p:separator>
+            <h:panelGroup id="messagePanel" layout="block">
+                <p:messages closable="true" />
+            </h:panelGroup>
+        
+            <p:panelGrid columns="2" styleClass="ui-panelgrid">
+                <p:outputLabel value="#{conf.StatecostLabel_idstatecost}" styleClass="labelview"/>
+                <p:outputLabel value="#{statecostController.selected.idstatecost}" title="#{conf.StatecostTitle_idstatecost}" 
+                              styleClass="dataview"/>
+                <p:outputLabel value="#{conf.StatecostLabel_state}" styleClass="labelview"/>
+                <p:outputLabel value="#{statecostController.selected.state}" title="#{conf.StatecostTitle_state}" 
+                              styleClass="dataview"/>
+                <p:outputLabel value="#{conf.StatecostLabel_cost}" styleClass="labelview"/>
+                <p:outputLabel value="#{statecostController.selected.cost}" title="#{conf.StatecostTitle_cost}"
+                              styleClass="dataview"/>
+            </p:panelGrid>
+        </ui:define>
+        
+        <ui:define name="bottom">
+            <ui:include src="../../folder/bottom.xhtml"/>
+        </ui:define>
+        
+    </ui:composition>
+</html>

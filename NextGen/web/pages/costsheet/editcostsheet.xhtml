@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditCostsheetTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_idcostsheet}" for="idcostsheet" />
+                    <h:inputText id="idcostsheet" value="#{costsheetController.selected.idcostsheet}" title="#{bundle.EditCostsheetTitle_idcostsheet}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_idcostsheet}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_date}" for="date" />
+                    <h:inputText id="date" value="#{costsheetController.selected.date}" title="#{bundle.EditCostsheetTitle_date}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_date}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_acountmanager}" for="acountmanager" />
+                    <h:inputText id="acountmanager" value="#{costsheetController.selected.acountmanager}" title="#{bundle.EditCostsheetTitle_acountmanager}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_acountmanager}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_recruites}" for="recruites" />
+                    <h:inputText id="recruites" value="#{costsheetController.selected.recruites}" title="#{bundle.EditCostsheetTitle_recruites}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_recruites}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_typecostsheet}" for="typecostsheet" />
+                    <h:inputText id="typecostsheet" value="#{costsheetController.selected.typecostsheet}" title="#{bundle.EditCostsheetTitle_typecostsheet}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_typecostsheet}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_srprojectnumber}" for="srprojectnumber" />
+                    <h:inputText id="srprojectnumber" value="#{costsheetController.selected.srprojectnumber}" title="#{bundle.EditCostsheetTitle_srprojectnumber}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_srprojectnumber}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_startdate}" for="startdate" />
+                    <h:inputText id="startdate" value="#{costsheetController.selected.startdate}" title="#{bundle.EditCostsheetTitle_startdate}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_startdate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_enddate}" for="enddate" />
+                    <h:inputText id="enddate" value="#{costsheetController.selected.enddate}" title="#{bundle.EditCostsheetTitle_enddate}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_enddate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_payrate}" for="payrate" />
+                    <h:inputText id="payrate" value="#{costsheetController.selected.payrate}" title="#{bundle.EditCostsheetTitle_payrate}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_payrate}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_billrate}" for="billrate" />
+                    <h:inputText id="billrate" value="#{costsheetController.selected.billrate}" title="#{bundle.EditCostsheetTitle_billrate}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_billrate}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_idparameter}" for="idparameter" />
+                    <h:inputText id="idparameter" value="#{costsheetController.selected.idparameter}" title="#{bundle.EditCostsheetTitle_idparameter}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_idparameter}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_overtimestatus}" for="overtimestatus" />
+                    <h:inputText id="overtimestatus" value="#{costsheetController.selected.overtimestatus}" title="#{bundle.EditCostsheetTitle_overtimestatus}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_overtimestatus}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_idstatecost}" for="idstatecost" />
+                    <h:inputText id="idstatecost" value="#{costsheetController.selected.idstatecost}" title="#{bundle.EditCostsheetTitle_idstatecost}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_idstatecost}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_stateload}" for="stateload" />
+                    <h:inputText id="stateload" value="#{costsheetController.selected.stateload}" title="#{bundle.EditCostsheetTitle_stateload}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_stateload}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_pdtypeofrate}" for="pdtypeofrate" />
+                    <h:inputText id="pdtypeofrate" value="#{costsheetController.selected.pdtypeofrate}" title="#{bundle.EditCostsheetTitle_pdtypeofrate}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_pdtypeofrate}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_pdrate}" for="pdrate" />
+                    <h:inputText id="pdrate" value="#{costsheetController.selected.pdrate}" title="#{bundle.EditCostsheetTitle_pdrate}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_pdrate}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_pdlengtth}" for="pdlengtth" />
+                    <h:inputText id="pdlengtth" value="#{costsheetController.selected.pdlengtth}" title="#{bundle.EditCostsheetTitle_pdlengtth}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_pdlengtth}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_pddatebegin}" for="pddatebegin" />
+                    <h:inputText id="pddatebegin" value="#{costsheetController.selected.pddatebegin}" title="#{bundle.EditCostsheetTitle_pddatebegin}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_pddatebegin}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_pddeletecostdate}" for="pddeletecostdate" />
+                    <h:inputText id="pddeletecostdate" value="#{costsheetController.selected.pddeletecostdate}" title="#{bundle.EditCostsheetTitle_pddeletecostdate}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_pddeletecostdate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_pdhrcostamort}" for="pdhrcostamort" />
+                    <h:inputText id="pdhrcostamort" value="#{costsheetController.selected.pdhrcostamort}" title="#{bundle.EditCostsheetTitle_pdhrcostamort}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_pdhrcostamort}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_pdtotal}" for="pdtotal" />
+                    <h:inputText id="pdtotal" value="#{costsheetController.selected.pdtotal}" title="#{bundle.EditCostsheetTitle_pdtotal}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_pdtotal}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_rtype}" for="rtype" />
+                    <h:inputText id="rtype" value="#{costsheetController.selected.rtype}" title="#{bundle.EditCostsheetTitle_rtype}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_rtype}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_ramount}" for="ramount" />
+                    <h:inputText id="ramount" value="#{costsheetController.selected.ramount}" title="#{bundle.EditCostsheetTitle_ramount}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_ramount}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_rdeletecostdate}" for="rdeletecostdate" />
+                    <h:inputText id="rdeletecostdate" value="#{costsheetController.selected.rdeletecostdate}" title="#{bundle.EditCostsheetTitle_rdeletecostdate}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_rdeletecostdate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_rhrcostamort}" for="rhrcostamort" />
+                    <h:inputText id="rhrcostamort" value="#{costsheetController.selected.rhrcostamort}" title="#{bundle.EditCostsheetTitle_rhrcostamort}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_rhrcostamort}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_rtotal}" for="rtotal" />
+                    <h:inputText id="rtotal" value="#{costsheetController.selected.rtotal}" title="#{bundle.EditCostsheetTitle_rtotal}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_rtotal}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_tlairfare}" for="tlairfare" />
+                    <h:inputText id="tlairfare" value="#{costsheetController.selected.tlairfare}" title="#{bundle.EditCostsheetTitle_tlairfare}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_tlairfare}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_tlhotel}" for="tlhotel" />
+                    <h:inputText id="tlhotel" value="#{costsheetController.selected.tlhotel}" title="#{bundle.EditCostsheetTitle_tlhotel}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_tlhotel}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_tlauto}" for="tlauto" />
+                    <h:inputText id="tlauto" value="#{costsheetController.selected.tlauto}" title="#{bundle.EditCostsheetTitle_tlauto}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_tlauto}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_tlmeals}" for="tlmeals" />
+                    <h:inputText id="tlmeals" value="#{costsheetController.selected.tlmeals}" title="#{bundle.EditCostsheetTitle_tlmeals}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_tlmeals}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_tldeletecostdate}" for="tldeletecostdate" />
+                    <h:inputText id="tldeletecostdate" value="#{costsheetController.selected.tldeletecostdate}" title="#{bundle.EditCostsheetTitle_tldeletecostdate}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_tldeletecostdate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_tlhrcostamort}" for="tlhrcostamort" />
+                    <h:inputText id="tlhrcostamort" value="#{costsheetController.selected.tlhrcostamort}" title="#{bundle.EditCostsheetTitle_tlhrcostamort}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_tlhrcostamort}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_tltotal}" for="tltotal" />
+                    <h:inputText id="tltotal" value="#{costsheetController.selected.tltotal}" title="#{bundle.EditCostsheetTitle_tltotal}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_tltotal}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_rftype}" for="rftype" />
+                    <h:inputText id="rftype" value="#{costsheetController.selected.rftype}" title="#{bundle.EditCostsheetTitle_rftype}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_rftype}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_rfamount}" for="rfamount" />
+                    <h:inputText id="rfamount" value="#{costsheetController.selected.rfamount}" title="#{bundle.EditCostsheetTitle_rfamount}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_rfamount}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_rfdeletecostdate}" for="rfdeletecostdate" />
+                    <h:inputText id="rfdeletecostdate" value="#{costsheetController.selected.rfdeletecostdate}" title="#{bundle.EditCostsheetTitle_rfdeletecostdate}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_rfdeletecostdate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_rfhrcostamort}" for="rfhrcostamort" />
+                    <h:inputText id="rfhrcostamort" value="#{costsheetController.selected.rfhrcostamort}" title="#{bundle.EditCostsheetTitle_rfhrcostamort}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_rfhrcostamort}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_rftotal}" for="rftotal" />
+                    <h:inputText id="rftotal" value="#{costsheetController.selected.rftotal}" title="#{bundle.EditCostsheetTitle_rftotal}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_rftotal}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_vcost}" for="vcost" />
+                    <h:inputText id="vcost" value="#{costsheetController.selected.vcost}" title="#{bundle.EditCostsheetTitle_vcost}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_vcost}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_vdeletecostdate}" for="vdeletecostdate" />
+                    <h:inputText id="vdeletecostdate" value="#{costsheetController.selected.vdeletecostdate}" title="#{bundle.EditCostsheetTitle_vdeletecostdate}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_vdeletecostdate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_vhrcostamort}" for="vhrcostamort" />
+                    <h:inputText id="vhrcostamort" value="#{costsheetController.selected.vhrcostamort}" title="#{bundle.EditCostsheetTitle_vhrcostamort}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_vhrcostamort}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_tpf}" for="tpf" />
+                    <h:inputText id="tpf" value="#{costsheetController.selected.tpf}" title="#{bundle.EditCostsheetTitle_tpf}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_tpf}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_tpfdeletecostdate}" for="tpfdeletecostdate" />
+                    <h:inputText id="tpfdeletecostdate" value="#{costsheetController.selected.tpfdeletecostdate}" title="#{bundle.EditCostsheetTitle_tpfdeletecostdate}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_tpfdeletecostdate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_tpfhrcostamort}" for="tpfhrcostamort" />
+                    <h:inputText id="tpfhrcostamort" value="#{costsheetController.selected.tpfhrcostamort}" title="#{bundle.EditCostsheetTitle_tpfhrcostamort}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_tpfhrcostamort}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_tpftotal}" for="tpftotal" />
+                    <h:inputText id="tpftotal" value="#{costsheetController.selected.tpftotal}" title="#{bundle.EditCostsheetTitle_tpftotal}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_tpftotal}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_totaladditionalcost}" for="totaladditionalcost" />
+                    <h:inputText id="totaladditionalcost" value="#{costsheetController.selected.totaladditionalcost}" title="#{bundle.EditCostsheetTitle_totaladditionalcost}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_totaladditionalcost}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_otpayrate}" for="otpayrate" />
+                    <h:inputText id="otpayrate" value="#{costsheetController.selected.otpayrate}" title="#{bundle.EditCostsheetTitle_otpayrate}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_otpayrate}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_otbillrate}" for="otbillrate" />
+                    <h:inputText id="otbillrate" value="#{costsheetController.selected.otbillrate}" title="#{bundle.EditCostsheetTitle_otbillrate}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_otbillrate}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_discountbillrate}" for="discountbillrate" />
+                    <h:inputText id="discountbillrate" value="#{costsheetController.selected.discountbillrate}" title="#{bundle.EditCostsheetTitle_discountbillrate}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_discountbillrate}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_discountotbillrate}" for="discountotbillrate" />
+                    <h:inputText id="discountotbillrate" value="#{costsheetController.selected.discountotbillrate}" title="#{bundle.EditCostsheetTitle_discountotbillrate}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_discountotbillrate}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_actualcost}" for="actualcost" />
+                    <h:inputText id="actualcost" value="#{costsheetController.selected.actualcost}" title="#{bundle.EditCostsheetTitle_actualcost}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_actualcost}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_totalhourlycost}" for="totalhourlycost" />
+                    <h:inputText id="totalhourlycost" value="#{costsheetController.selected.totalhourlycost}" title="#{bundle.EditCostsheetTitle_totalhourlycost}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_totalhourlycost}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_hourlygrossprofit}" for="hourlygrossprofit" />
+                    <h:inputText id="hourlygrossprofit" value="#{costsheetController.selected.hourlygrossprofit}" title="#{bundle.EditCostsheetTitle_hourlygrossprofit}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_hourlygrossprofit}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_grossmargin}" for="grossmargin" />
+                    <h:inputText id="grossmargin" value="#{costsheetController.selected.grossmargin}" title="#{bundle.EditCostsheetTitle_grossmargin}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_grossmargin}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_discountgrossprofit}" for="discountgrossprofit" />
+                    <h:inputText id="discountgrossprofit" value="#{costsheetController.selected.discountgrossprofit}" title="#{bundle.EditCostsheetTitle_discountgrossprofit}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_discountgrossprofit}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_discountgrossmargin}" for="discountgrossmargin" />
+                    <h:inputText id="discountgrossmargin" value="#{costsheetController.selected.discountgrossmargin}" title="#{bundle.EditCostsheetTitle_discountgrossmargin}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_discountgrossmargin}"/>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_idcandidate}" for="idcandidate" />
+                    <h:selectOneMenu id="idcandidate" value="#{costsheetController.selected.idcandidate}" title="#{bundle.EditCostsheetTitle_idcandidate}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_idcandidate}">
+                        <f:selectItems value="#{candidateController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditCostsheetLabel_idclient}" for="idclient" />
+                    <h:selectOneMenu id="idclient" value="#{costsheetController.selected.idclient}" title="#{bundle.EditCostsheetTitle_idclient}" required="true" requiredMessage="#{bundle.EditCostsheetRequiredMessage_idclient}">
+                        <f:selectItems value="#{clientController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{costsheetController.update}" value="#{bundle.EditCostsheetSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditCostsheetViewLink}"/>
+                <br />
+                <h:commandLink action="#{costsheetController.prepareList}" value="#{bundle.EditCostsheetShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditCostsheetIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

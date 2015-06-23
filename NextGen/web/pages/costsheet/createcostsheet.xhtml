@@ -1,0 +1,788 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:b="http://bootsfaces.net/ui">
+    
+    <h:head>
+        <h:outputStylesheet name="css/style.css"/>
+        <f:event type="preRenderView" listener="#{sessionController.verifySession2()}"/>
+        <title>#{conf.CostsheetTitle}</title>
+    </h:head>
+    <ui:composition template="../../templates/master.xhtml">
+        
+        <ui:define name="top">
+            <ui:include src="../../folder/top.xhtml"/>
+        </ui:define>
+        
+        <ui:define name="menu">
+            <ui:include src="../../folder/menu.xhtml"/>
+        </ui:define>
+
+        <ui:define name="left">
+           <p:outputPanel layout="block" styleClass="ui-grid-col-12" >
+                <h:form>
+                    <b:buttonGroup>
+                        <b:commandButton action="#{costsheetController.prepareList}" value="#{conf.CostsheetShowAllLink}" 
+                                ajax="false" look="success" size="sm"/>                    
+                    </b:buttonGroup>
+                </h:form>
+           </p:outputPanel>
+        </ui:define>
+        
+        <ui:define name="title">
+            <h:outputText value="#{conf.CostsheetTitle}" />
+        </ui:define>
+        
+        <ui:define name="content">
+            <p:separator></p:separator>
+            <h:panelGroup id="messagePanel" layout="block">
+                <p:messages closable="true" />
+            </h:panelGroup>
+            <h:form>    
+                <h:panelGrid columns="1">
+                    
+                <p:panel styleClass="border">
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="#{conf.CostsheetLabel_date}" for="date" />
+                        <p:clock id="date" pattern="EE, dd MM, yyyy" />
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_typecostsheet}" for="typecostsheet" />
+                        <p:selectOneRadio id="typecostsheet" 
+                                      value="#{costsheetController.selected.typecostsheet}" required="true" 
+                                      requiredMessage="#{conf.CostsheetRequiredMessage_typecostsheet}">
+                            <f:selectItem itemValue="0" itemLabel="New Hire"/>
+                            <f:selectItem itemValue="1" itemLabel="Rate Change"/>
+                            <f:selectItem itemValue="2" itemLabel="Cost Change(expenses, visa, etc.)"/>
+                        </p:selectOneRadio>
+                    </h:panelGrid>
+                </p:panel>
+                    
+                <p:fieldset legend="#{conf.CostSheetField_projectinformation}" style="margin-bottom:20px" 
+                                styleClass="border">
+                        <h:panelGrid columns="4">
+                        <p:outputLabel value="#{conf.CostsheetLabel_candidatename}" for="idcandidate" />
+                        <p:selectOneMenu id="idcandidate"  required="true"
+                                         value="#{costsheetController.selected.idcandidate.idcandidate}"
+                                     title="#{conf.CostsheetTitle_candidatename}"
+                                     requiredMessage="#{conf.CostsheetRequiredMessage_candidatename}">
+                            <f:selectItem noSelectionOption="true" itemValue="0" itemLabel="NONE" />
+                            <f:selectItems value="#{candidateController.itemsMenu}"/>
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_accountmanager}" for="acountmanager" />
+                        <p:inputText id="acountmanager" value="#{costsheetController.selected.acountmanager}"
+                                 title="#{conf.CostsheetTitle_accountmanager}" 
+                                 required="true" maxlength="100"
+                                 requiredMessage="#{conf.CostsheetRequiredMessage_accountmanager}" 
+                                 style="text-transform: uppercase;" />
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_recruiter}" for="recruites" />
+                        <p:inputText id="recruites" value="#{costsheetController.selected.recruites}"
+                                 title="#{conf.CostsheetTitle_recruiter}"
+                                 required="true" maxlength="100"
+                                 requiredMessage="#{conf.CostsheetRequiredMessage_recruiter}"
+                                 style="text-transform: uppercase;" />
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_clientname}" for="idclient" />
+                        <p:selectOneMenu id="idclient" value="#{costsheetController.selected.idclient.idclient}"
+                                     title="#{conf.CostsheetTitle_clientname}"
+                                     required="true" validatorMessage="Select an client"
+                                     
+                                     requiredMessage="#{conf.CostsheetRequiredMessage_clientname}">
+                            <f:selectItem noSelectionOption="true" itemValue="0" itemLabel="NONE"/>
+                            <f:selectItems value="#{clientController.itemsMenu}"/>
+                            <p:ajax update="idclient2 markup otmarkup discount 
+                                    otbillratecalculated vms" 
+                                    listener="#{costsheetController.showClient()}"/>
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_srprojectnumber}" for="srprojectnumber" />
+                        <p:inputText id="srprojectnumber" value="#{costsheetController.selected.srprojectnumber}"
+                                 title="#{conf.CostsheetTitle_srprojectnumber}"
+                                 required="true" maxlength="100"
+                                 requiredMessage="#{conf.CostsheetRequiredMessage_srprojectnumber}"/>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_startdate}" for="startdate" />
+                        <p:calendar id="startdate" value="#{costsheetController.selected.startdate}"
+                                    title="#{conf.CostsheetTitle_startdate}" required="true"
+                                    pattern="EEE, dd MMM, yyyy" locale="en"
+                                    readonlyInput="true" 
+                                    requiredMessage="#{conf.CostsheetRequiredMessage_startdate}"/>
+                        <p:column /><p:column />
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_enddate}" for="enddate" />
+                        <p:calendar id="enddate" value="#{costsheetController.selected.enddate}"
+                                    title="#{conf.CostsheetTitle_enddate}" required="true"
+                                    pattern="EEE, dd MMM, yyyy" locale="en"
+                                    readonlyInput="true"
+                                    requiredMessage="#{conf.CostsheetRequiredMessage_enddate}"/>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_payrate}" for="payrate" />
+                        <pe:inputNumber id="payrate" value="#{costsheetController.selected.payrate}"
+                                 title="#{conf.CostsheetTitle_payrate}"
+                                 required="true" minValue="0.00"
+                                 requiredMessage="#{conf.CostsheetRequiredMessage_payrate}">
+                                 <p:ajax event="change" update="payrate2 otpayrate billrate2 otbillrate discountbillrate
+                                    discountotbillrate actualcost totalhourlycost 
+                                    hourlygrossprofit grossmargin discountgrossprofit 
+                                    discountgrossmargin payclase" 
+                                    listener="#{costsheetController.calcotpayrate}" />
+                        </pe:inputNumber>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_billrate}" for="billrate" />
+                        <pe:inputNumber id="billrate" value="#{costsheetController.selected.billrate}"
+                                 title="#{conf.CostsheetTitle_billrate}"
+                                 required="true" minValue="0.00"
+                                 requiredMessage="#{conf.CostsheetRequiredMessage_billrate}">
+                            <p:ajax event="change" update="payrate2 otpayrate billrate2 otbillrate discountbillrate
+                                    discountotbillrate actualcost totalhourlycost 
+                                    hourlygrossprofit grossmargin discountgrossprofit 
+                                    discountgrossmargin payclase" 
+                                    listener="#{costsheetController.calcotpayrate}" />
+                        </pe:inputNumber>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_idparameter}" for="idparameter" />
+                        <p:selectOneMenu id="idparameter" value="#{costsheetController.selected.idparameter}"
+                                    title="#{conf.CostsheetTitle_idparameter}"
+                                    required="true" validatorMessage="Select a Employee Type"
+                                    requiredMessage="#{conf.CostsheetRequiredMessage_idparameter}">
+                            <f:selectItem noSelectionOption="true" itemValue="0" itemLabel="NONE" />
+                            <f:selectItems value="#{parameterController.getItemsMenu(0)}" />
+                            <p:ajax event="change" update="payrate2 otpayrate billrate2 otbillrate discountbillrate
+                                    discountotbillrate actualcost totalhourlycost 
+                                    hourlygrossprofit grossmargin discountgrossprofit 
+                                    discountgrossmargin payclase" 
+                                    listener="#{costsheetController.calcotpayrate}" />
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_overtimestatus}" for="overtimestatus" />
+                        <p:selectOneMenu id="overtimestatus" 
+                                value="#{costsheetController.selected.overtimestatus}"
+                                title="#{conf.CostsheetTitle_overtimestatus}"
+                                required="true"
+                                requiredMessage="#{conf.CostsheetRequiredMessage_overtimestatus}">
+                            <f:selectItems value="#{additionalData.overtimes}"/>
+                            <p:ajax event="change" update="payrate2 otpayrate billrate2 otbillrate discountbillrate
+                                    discountotbillrate actualcost totalhourlycost 
+                                    hourlygrossprofit grossmargin discountgrossprofit 
+                                    discountgrossmargin payclase" 
+                                    listener="#{costsheetController.calcotpayrate}" />
+                        </p:selectOneMenu>
+                        </h:panelGrid>
+                        
+                        <p:separator/>
+                    
+                        <h:panelGrid columns="4">
+                        <p:outputLabel value="#{conf.CostsheetLabel_statename}" for="idstatecode" />
+                            <p:selectOneMenu id="idstatecode" 
+                                 value="#{costsheetController.selected.idstatecost}"
+                                 title="#{conf.CostsheetTitle_statename}"
+                                 required="true" validatorMessage="Select a State"
+                                 requiredMessage="#{conf.CostsheetRequiredMessage_statename}">
+                                <f:selectItem noSelectionOption="true" itemValue="0" itemLabel="NONE"/>
+                                <f:selectItems value="#{statecostController.itemsMenu}"/>
+                            <p:ajax update="stateload" listener="#{costsheetController.showStatecost()}"/>
+                            </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_stateload}" for="stateload" />
+                            <p:inputText id="stateload" value="#{costsheetController.selected.stateload}"
+                                         title="#{conf.CostsheetTitle_stateload}" disabled="true"
+                                 requiredMessage="#{conf.CostsheetRequiredMessage_stateload}"/>
+                        </h:panelGrid>
+                </p:fieldset>
+                    
+                    <p:fieldset id="additionalcostlabel" legend="#{conf.CostSheetField_additionalcost}" 
+                                style="margin-top: 10px;" styleClass="border">
+                    <p:panelGrid columns="2">                    
+                        <p:outputLabel value="#{conf.CostsheetLabel_additionalcost}" for="additionalcost" />
+                        <p:selectOneRadio id="additionalcost" value="#{costsheetController.selected.additionalcost}" 
+                                      required="true" 
+                                      requiredMessage="#{conf.CostsheetRequiredMessage_additionalcost}">
+                            <f:selectItem itemValue="1" itemLabel="YES additional cost"/>
+                            <f:selectItem itemValue="0" itemLabel="NO additional cost"/>
+                            <p:ajax event="click" listener="#{costsheetController.setDefaults()}" update="gridContainerAdditionalCost 
+                                    gridContainerAdditionalCostData"/>
+                        </p:selectOneRadio>
+                    </p:panelGrid>
+                    
+                    <p:separator />
+                    
+                    <p:outputPanel id="gridContainerAdditionalCost" layout="block" >
+                        <p:panelGrid rendered="#{costsheetController.selected.additionalcost=='1'}" 
+                                 id="gridContainerAdditionalCostData" rendererType="down">
+                    
+                        <p:panelGrid columns="5">
+                            <p:outputLabel value="#{conf.CostsheetLabel_pdtypeofrate}" 
+                                           for="pdtypeofrate" />
+                            <p:selectOneMenu id="pdtypeofrate" 
+                                         value="#{costsheetController.selected.pdtypeofrate}"
+                                         title="#{conf.CostsheetTitle_pdtypeofrate}">
+                                <f:selectItems value="#{additionalData.pierrates}"/>
+                            </p:selectOneMenu>
+                            <p:column />
+                            
+                            <p:outputLabel value="#{conf.CostsheetLabel_rtype}" 
+                                           for="rtype" />
+                            <p:selectOneMenu id="rtype"
+                                         value="#{costsheetController.selected.rtype}"
+                                         title="#{conf.CostsheetTitle_rtype}">
+                                <f:selectItems value="#{additionalData.relocas}"/>
+                            </p:selectOneMenu>
+                            
+                            <p:outputLabel value="#{conf.CostsheetLabel_pdrate}" 
+                                           for="pdrate" />
+                            <pe:inputNumber id="pdrate"
+                                         minValue="0.00"
+                                         value="#{costsheetController.selected.pdrate}"
+                                         title="#{conf.CostsheetTitle_pdrate}">
+                                         <p:ajax event="change" update="pdtotal totaladditionalcost additionalcost2 totalhourlycost"  listener="#{costsheetController.calctotalpd}"/> 
+                            </pe:inputNumber>
+                            <p:column >
+                                
+                            </p:column>
+                            <p:outputLabel value="#{conf.CostsheetLabel_ramount}" 
+                                           for="ramount" />
+                            <pe:inputNumber id="ramount" 
+                                        minValue="0.00"
+                                        value="#{costsheetController.selected.ramount}"
+                                        title="#{conf.CostsheetTitle_ramount}">
+                                        <p:ajax event="change" update="rtotal totaladditionalcost additionalcost2 totalhourlycost"  listener="#{costsheetController.calctotalr}"/> 
+                            </pe:inputNumber>
+                            
+                            <p:outputLabel value="#{conf.CostsheetLabel_pdlengtth}" 
+                                           for="pdlengtth" />
+                            <pe:inputNumber id="pdlengtth" 
+                                        minValue="0"
+                                        value="#{costsheetController.selected.pdlengtth}"
+                                        title="#{conf.CostsheetTitle_pdlengtth}">
+                                        <p:ajax event="change" update="pdtotal totaladditionalcost additionalcost2 totalhourlycost"  listener="#{costsheetController.calctotalpd}"/> 
+                            </pe:inputNumber>
+                            
+                            <p:column style="font-size: 10px;" >**Enter # of days or months</p:column>
+                            
+                            <p:outputLabel value="#{conf.CostsheetLabel_rdeletecostdate}" 
+                                           for="rdeletecostdate" />
+                            <p:calendar id="rdeletecostdate" 
+                                        pattern="EEE, dd MMM, yyyy" locale="en"
+                                         value="#{costsheetController.selected.rdeletecostdate}"
+                                         title="#{conf.CostsheetTitle_rdeletecostdate}"
+                                         readonlyInput="true"/>
+                            
+                            <p:outputLabel value="#{conf.CostsheetLabel_pddatebegin}" 
+                                           for="pddatebegin" />
+                            <p:calendar id="pddatebegin" 
+                                        pattern="EEE, dd MMM, yyyy" locale="en"
+                                        value="#{costsheetController.selected.pddatebegin}"
+                                        title="#{conf.CostsheetTitle_pddatebegin}"
+                                        readonlyInput="true"/>
+                            
+                            <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p:column>
+                            <p:outputLabel value="#{conf.CostsheetLabel_rhrcostamort}" 
+                                           for="rhrcostamort" />
+                            <p:inputText id="rhrcostamort" 
+                                         value="#{costsheetController.selected.rhrcostamort}"
+                                         title="#{conf.CostsheetTitle_rhrcostamort}">
+                                         <p:ajax event="change" update="rtotal totaladditionalcost additionalcost2 totalhourlycost"  listener="#{costsheetController.calctotalr}"/> 
+                            </p:inputText>
+                            
+                            <p:outputLabel value="#{conf.CostsheetLabel_pddeletecostdate}" 
+                                           for="pddeletecostdate" />
+                            <p:calendar id="pddeletecostdate" 
+                                         value="#{costsheetController.selected.pddeletecostdate}"
+                                         title="#{conf.CostsheetTitle_pddeletecostdate}"
+                                         pattern="EEE, dd MMM, yyyy" locale="en"
+                                         readonlyInput="true"/>
+                            
+                            <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p:column>
+                            <p:outputLabel value="#{conf.CostsheetLabel_rtotal}" 
+                                           for="rtotal" />
+                            <p:inputText id="rtotal" 
+                                         value="#{costsheetController.selected.rtotal}"
+                                         title="#{conf.CostsheetTitle_rtotal}"
+                                         disabled="true"/>
+                            <p:outputLabel value="#{conf.CostsheetLabel_pdhrcostamort}" 
+                                           for="pdhrcostamort" />
+                            <p:inputText id="pdhrcostamort" 
+                                         value="#{costsheetController.selected.pdhrcostamort}"
+                                         title="#{conf.CostsheetTitle_pdhrcostamort}">
+                                         <p:ajax event="change" update="pdtotal totaladditionalcost additionalcost2 totalhourlycost"  listener="#{costsheetController.calctotalpd}"/> 
+                            </p:inputText>
+                            <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p:column>
+                            <p:column></p:column>
+                            <p:column></p:column>
+                            <p:outputLabel value="#{conf.CostsheetLabel_pdtotal}" 
+                                           for="pdtotal" />
+                            <p:inputText id="pdtotal" 
+                                         value="#{costsheetController.selected.pdtotal}"
+                                         title="#{conf.CostsheetTitle_pdtotal}"
+                                         disabled="true"/>
+                            <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p:column>
+                            <p:column></p:column>
+                            <p:column></p:column>
+                    </p:panelGrid>    
+                        <p:separator></p:separator>
+                    <p:panelGrid columns="5">
+                            <p:outputLabel value="#{conf.CostsheetLabel_tlairfare}" 
+                                           for="tlairfare" />
+                            <p:inputText id="tlairfare" 
+                                         value="#{costsheetController.selected.tlairfare}"
+                                         title="#{conf.CostsheetTitle_tlairfare}">
+                                         <p:ajax event="change" update="tltotal totaladditionalcost additionalcost2 totalhourlycost"  listener="#{costsheetController.calctotaltl}"/> 
+                            </p:inputText>
+                            <p:column > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p:column>
+                            <p:outputLabel value="#{conf.CostsheetLabel_rftype}" 
+                                           for="rftype" />
+                            <p:selectOneMenu id="rftype" 
+                                         value="#{costsheetController.selected.rftype}"
+                                         title="#{conf.CostsheetTitle_rftype}">
+                                    <f:selectItems value="#{additionalData.referrals}"/>
+                            </p:selectOneMenu>
+                            
+                            <p:outputLabel value="#{conf.CostsheetLabel_tlhotel}" 
+                                           for="tlhotel" />
+                            <p:inputText id="tlhotel" 
+                                         value="#{costsheetController.selected.tlhotel}"
+                                         title="#{conf.CostsheetTitle_tlhotel}">
+                                        <p:ajax event="change" update="tltotal totaladditionalcost additionalcost2 totalhourlycost"  listener="#{costsheetController.calctotaltl}"/> 
+                            </p:inputText>
+                            <p:column > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p:column>
+                            <p:outputLabel value="#{conf.CostsheetLabel_rfamount}" 
+                                           for="rfamount" />
+                            <p:inputText id="rfamount" 
+                                         value="#{costsheetController.selected.rfamount}"
+                                         title="#{conf.CostsheetTitle_rfamount}">
+                                         <p:ajax event="change" update="rftotal totaladditionalcost additionalcost2 totalhourlycost"  listener="#{costsheetController.calctotalrf}"/> 
+                            </p:inputText>
+                            <p:outputLabel value="#{conf.CostsheetLabel_tlauto}" 
+                                           for="tlauto" />
+                            <p:inputText id="tlauto" 
+                                         value="#{costsheetController.selected.tlauto}"
+                                         title="#{conf.CostsheetTitle_tlauto}">
+                                         <p:ajax event="change" update="tltotal totaladditionalcost additionalcost2 totalhourlycost"  listener="#{costsheetController.calctotaltl}"/> 
+                            </p:inputText>
+                            <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p:column>
+                            
+                            <p:outputLabel value="#{conf.CostsheetLabel_rfdeletecostdate}" 
+                                           for="rfdeletecostdate" />
+                            <p:calendar id="rfdeletecostdate" 
+                                         value="#{costsheetController.selected.rfdeletecostdate}"
+                                         title="#{conf.CostsheetTitle_rfdeletecostdate}"
+                                         pattern="EEE, dd MMM, yyyy" locale="en"
+                                         readonlyInput="true"/>
+                            
+                            <p:outputLabel value="#{conf.CostsheetLabel_tlmeals}" 
+                                           for="tlmeals" />
+                            <p:inputText id="tlmeals" 
+                                         value="#{costsheetController.selected.tlmeals}"
+                                         title="#{conf.CostsheetTitle_tlmeals}">
+                                         <p:ajax event="change" update="tltotal totaladditionalcost additionalcost2 totalhourlycost"  listener="#{costsheetController.calctotaltl}"/> 
+                            </p:inputText>
+                            <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p:column>
+                            <p:outputLabel value="#{conf.CostsheetLabel_rfhrcostamort}" 
+                                           for="rfhrcostamort" />
+                            <p:inputText id="rfhrcostamort" 
+                                         value="#{costsheetController.selected.rfhrcostamort}"
+                                         title="#{conf.CostsheetTitle_rfhrcostamort}">
+                                         <p:ajax event="change" update="rftotal totaladditionalcost additionalcost2 totalhourlycost"  listener="#{costsheetController.calctotalrf}"/> 
+                            </p:inputText>
+                            
+                            <p:outputLabel value="#{conf.CostsheetLabel_tldeletecostdate}" 
+                                           for="tldeletecostdate" />
+                            <p:calendar id="tldeletecostdate" 
+                                         value="#{costsheetController.selected.tldeletecostdate}"
+                                         title="#{conf.CostsheetTitle_tldeletecostdate}"
+                                         pattern="EEE, dd MMM, yyyy" locale="en"
+                                         readonlyInput="true"/>
+                            
+                            <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p:column>
+                            <p:outputLabel value="#{conf.CostsheetLabel_rftotal}" 
+                                           for="rftotal" />
+                            <p:inputText id="rftotal" 
+                                         value="#{costsheetController.selected.rftotal}"
+                                         title="#{conf.CostsheetTitle_rftotal}"
+                                         disabled="true"/>
+                            <p:outputLabel value="#{conf.CostsheetLabel_tlhrcostamort}" 
+                                           for="tlhrcostamort" />
+                            <p:inputText id="tlhrcostamort" 
+                                         value="#{costsheetController.selected.tlhrcostamort}"
+                                         title="#{conf.CostsheetTitle_tlhrcostamort}">
+                                         <p:ajax event="change" update="tltotal totaladditionalcost additionalcost2 totalhourlycost"  listener="#{costsheetController.calctotaltl}"/> 
+                            </p:inputText>
+                            <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p:column>
+                            <p:column></p:column>
+                            <p:column></p:column>
+                            <p:outputLabel value="#{conf.CostsheetLabel_tltotal}" 
+                                           for="tltotal" />
+                            <p:inputText id="tltotal" 
+                                         value="#{costsheetController.selected.tltotal}"
+                                         title="#{conf.CostsheetTitle_tltotal}"
+                                         disabled="true"/>
+                            <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p:column>
+                            <p:column></p:column>
+                            <p:column></p:column>
+                    </p:panelGrid>
+                        
+                        <p:separator></p:separator>
+                        <p:panelGrid columns="5">
+                            <p:outputLabel value="#{conf.CostsheetLabel_tpf}" 
+                                           for="tpf" />
+                            <p:inputText id="tpf" 
+                                         value="#{costsheetController.selected.tpf}"
+                                         title="#{conf.CostsheetTitle_tpf}">
+                                         <p:ajax event="change" update="tpftotal totaladditionalcost additionalcost2 totalhourlycost"  listener="#{costsheetController.calctotaltpf}"/> 
+                            </p:inputText>
+                            <p:column > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p:column>
+                            <p:outputLabel value="#{conf.CostsheetLabel_vcost}" 
+                                           for="vcost" />
+                            <p:inputText id="vcost" 
+                                         value="#{costsheetController.selected.vcost}"
+                                         title="#{conf.CostsheetTitle_vcost}">
+                                        <p:ajax event="change" update="vtotal totaladditionalcost additionalcost2 totalhourlycost"  listener="#{costsheetController.calctotalv}"/> 
+                            </p:inputText>
+                            
+                            <p:outputLabel value="#{conf.CostsheetLabel_tpfdeletecostdate}" 
+                                           for="tpfdeletecostdate" />
+                            <p:calendar id="tpfdeletecostdate" 
+                                         value="#{costsheetController.selected.tpfdeletecostdate}"
+                                         title="#{conf.CostsheetTitle_tpfdeletecostdate}"
+                                         pattern="EEE, dd MMM, yyyy" locale="en"
+                                         readonlyInput="true"/>
+                            
+                            <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p:column>
+                            
+                            <p:outputLabel value="#{conf.CostsheetLabel_vdeletecostdate}" 
+                                           for="vdeletecostdate" />
+                            <p:calendar id="vdeletecostdate" 
+                                        value="#{costsheetController.selected.vdeletecostdate}"
+                                        title="#{conf.CostsheetTitle_vdeletecostdate}"
+                                        pattern="EEE, dd MMM, yyyy" locale="en"
+                                        readonlyInput="true"/>
+                            
+                            <p:outputLabel value="#{conf.CostsheetLabel_tpfhrcostamort}" 
+                                           for="tpfhrcostamort" />
+                            <p:inputText id="tpfhrcostamort" 
+                                         value="#{costsheetController.selected.tpfhrcostamort}"
+                                         title="#{conf.CostsheetTitle_tpfhrcostamort}">
+                                         <p:ajax event="change" update="tpftotal totaladditionalcost additionalcost2 totalhourlycost"  listener="#{costsheetController.calctotaltpf}"/> 
+                            </p:inputText>
+                            <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p:column>
+                            <p:outputLabel value="#{conf.CostsheetLabel_vhrcostamort}" 
+                                           for="vhrcostamort" />
+                            <p:inputText id="vhrcostamort" 
+                                         value="#{costsheetController.selected.vhrcostamort}"
+                                         title="#{conf.CostsheetTitle_vhrcostamort}">
+                                         <p:ajax event="change" update="vtotal totaladditionalcost additionalcost2 totalhourlycost"  listener="#{costsheetController.calctotalv}"/> 
+                            </p:inputText>
+                            <p:outputLabel value="#{conf.CostsheetLabel_tpftotal}" 
+                                           for="tpftotal" />
+                            <p:inputText id="tpftotal" 
+                                         value="#{costsheetController.selected.tpftotal}"
+                                         title="#{conf.CostsheetTitle_tpftotal}"
+                                         disabled="true"/>
+                            <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p:column>
+                            <p:outputLabel value="#{conf.CostsheetLabel_vtotal}" 
+                                           for="vtotal" />
+                            <p:inputText id="vtotal" 
+                                         value="#{costsheetController.selected.vtotal}"
+                                         title="#{conf.CostsheetTitle_vtotal}"
+                                         disabled="true"> 
+                            </p:inputText>
+                            
+                        </p:panelGrid>
+                        <p:separator></p:separator>
+                        <p:panelGrid columns="5">
+                            <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p:column>
+                            <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p:column>
+                            <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </p:column>
+                            <p:outputLabel value="#{conf.CostsheetLabel_totaladditionalcost}" 
+                                           for="totaladditionalcost" />
+                            <p:inputText id="totaladditionalcost" 
+                                         value="#{costsheetController.selected.totaladditionalcost}"
+                                         title="#{conf.CostsheetTitle_totaladditionalcost}"
+                                         disabled="true"/>
+                       </p:panelGrid> 
+                       </p:panelGrid>
+                    </p:outputPanel> 
+                    </p:fieldset>
+                    
+                    <p:fieldset id="finantialinformation" legend="#{conf.CostSheetField_finantialinformation}" 
+                                style="margin-bottom:20px" styleClass="border">
+                        <h:panelGrid columns="5">
+                        <p:outputLabel value="#{conf.CostsheetLabel_clientname}" for="idclient2" />
+                        <p:inputText id="idclient2" value="#{costsheetController.selected.idclient.clientname}"
+                                     title="#{conf.CostsheetTitle_clientname}" 
+                                     disabled="true"/>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:outputLabel value="#{conf.CostsheetLabel_actualcost}" for="actualcost" />
+                        <p:inputText id="actualcost" value="#{costsheetController.selected.actualcost}"
+                                     title="#{conf.CostsheetTitle_actualcost}" 
+                                     disabled="true">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText>
+                        <p:outputLabel value="Pay Class" />
+                        <p:inputText id="payclase" value="#{costsheetController.payclassdetail}"
+                                     title="Pay Class" 
+                                     disabled="true"/>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:outputLabel value="#{conf.CostsheetLabel_additionalcost2}" for="additionalcost2" />
+                        <p:inputText id="additionalcost2" value="#{costsheetController.selected.totaladditionalcost}"
+                                     title="#{conf.CostsheetTitle_additionalcost2}" 
+                                     disabled="true">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText>
+                        <p:outputLabel value="#{conf.CostsheetLabel_markup}" for="markup" />
+                        <p:inputText id="markup" value="#{costsheetController.selected.idclient.fixedmarkup}"
+                                     title="#{conf.CostsheetTitle_markup}" 
+                                     disabled="true"/>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_totalhourlycost}" for="totalhourlycost" />
+                        <p:inputText id="totalhourlycost" value="#{costsheetController.selected.totalhourlycost}"
+                                     title="#{conf.CostsheetTitle_totalhourlycost}" 
+                                     disabled="true">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_otmarkup}" for="otmarkup" />
+                        <p:inputText id="otmarkup" value="#{costsheetController.selected.idclient.otmarkup}"
+                                     title="#{conf.CostsheetTitle_otmarkup}" 
+                                     disabled="true">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:outputLabel value="#{conf.CostsheetLabel_discount}" for="discount" />
+                        <p:inputText id="discount" value="#{costsheetController.selected.idclient.discount}"
+                                     title="#{conf.CostsheetTitle_discount}" 
+                                     disabled="true">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:outputLabel value="#{conf.CostsheetLabel_payrate}" for="payrate" />
+                        <p:inputText id="payrate2" value="#{costsheetController.selected.payrate}"
+                                     title="#{conf.CostsheetTitle_payrate}" 
+                                     disabled="true">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:outputLabel value="#{conf.CostsheetLabel_hourlygrossprofit}" for="hourlygrossprofit" />
+                        <p:inputText id="hourlygrossprofit" value="#{costsheetController.selected.hourlygrossprofit}"
+                                     title="#{conf.CostsheetTitle_hourlygrossprofit}" 
+                                     disabled="true">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText>
+                        <p:outputLabel value="#{conf.CostsheetLabel_otpayrate}" for="otpayrate" />
+                        <p:inputText id="otpayrate" value="#{costsheetController.selected.otpayrate}"
+                                     title="#{conf.CostsheetTitle_otpayrate}" 
+                                     disabled="true">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_grossmargin}" for="grossmargin" />
+                        <p:inputText id="grossmargin" value="#{costsheetController.selected.grossmargin}"
+                                     title="#{conf.CostsheetTitle_grossmargin}" 
+                                     disabled="true">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_billrate}" for="billrate" />
+                        <p:inputText id="billrate2" value="#{costsheetController.selected.billrate}"
+                                     title="#{conf.CostsheetTitle_billrate}" 
+                                     disabled="true">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:outputLabel value="#{conf.CostsheetLabel_otbillratecalculated}" for="otbillratecalculated" />
+                        <p:inputText id="otbillratecalculated" value="#{costsheetController.otbillcalcdetail}"
+                                     title="#{conf.CostsheetTitle_otbillratecalculated}" 
+                                     disabled="true">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:outputLabel value="#{conf.CostsheetLabel_discountgrossprofit}" for="discountgrossprofit" />
+                        <p:inputText id="discountgrossprofit" value="#{costsheetController.selected.discountgrossprofit}"
+                                     title="#{conf.CostsheetTitle_discountgrossprofit}" 
+                                     disabled="true">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText>
+                        <p:outputLabel value="#{conf.CostsheetLabel_otbillrate}" for="otbillrate" />
+                        <p:inputText id="otbillrate" value="#{costsheetController.selected.otbillrate}"
+                                     title="#{conf.CostsheetTitle_otbillrate}" 
+                                     disabled="true">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:outputLabel value="#{conf.CostsheetLabel_discountgrossmargin}" for="discountgrossmargin" />
+                        <p:inputText id="discountgrossmargin" value="#{costsheetController.selected.discountgrossmargin}"
+                                     title="#{conf.CostsheetTitle_discountgrossmargin}" 
+                                     disabled="true">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_discountbillrate}" for="discountbillrate" />
+                        <p:inputText id="discountbillrate" value="#{costsheetController.selected.discountbillrate}"
+                                     title="#{conf.CostsheetTitle_discountbillrate}" 
+                                     disabled="true">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:outputLabel value="#{conf.CostsheetLabel_discountotbillrate}" for="discountotbillrate" />
+                        <p:inputText id="discountotbillrate" value="#{costsheetController.selected.discountotbillrate}"
+                                     title="#{conf.CostsheetTitle_discountotbillrate}" 
+                                     disabled="true">
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                        </p:inputText>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:column> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </p:column>
+                        <p:outputLabel value="#{conf.CostsheetLabel_vms}" for="vms" />
+                        <p:inputText id="vms" value="#{costsheetController.vmsdetail}"
+                                     title="#{conf.CostsheetTitle_vms}" 
+                                     disabled="true"/>
+                        </h:panelGrid>
+                    </p:fieldset>
+                    
+                </h:panelGrid>
+                <p:commandButton styleClass="btn" action="#{costsheetController.create()}" 
+                                     value="#{conf.SaveBtn}" ajax="false" />
+            </h:form>
+        </ui:define>
+        <ui:define name="bottom">
+            <ui:include src="../../folder/bottom.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

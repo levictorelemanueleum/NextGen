@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <h:outputStylesheet name="css/style.css"/>
+        <f:event type="preRenderView" listener="#{sessionController.verifySession()}"/>
+    </h:head>
+    <!--<ui:composition template="indexTemplate.xhtml">
+       <ui:define name="top">
+            <ui:include src="folder/topIndex.xhtml"/>
+       </ui:define>
+        
+       <ui:define name="menu">
+           <ui:include src="folder/menu.xhtml"/>
+       </ui:define>              
+       <ui:define name="content">
+           <img style="max-width: 100%; width: 100%; overflow: visible" src="resources/img/wellcome.png" />
+       </ui:define>
+        
+       <ui:define name="bottom">
+           <ui:include src="folder/bottom.xhtml"/>
+       </ui:define>
+        
+    </ui:composition>-->
+    <ui:composition template="templates/master_1.xhtml">
+       <ui:define name="menu">
+           <ui:include src="folder/menu.xhtml"/>
+       </ui:define>              
+        <ui:define name="content">
+            <div>
+                <img style="width: 100%; height: auto" src="resources/img/wellcome.png"/>
+            </div>
+        </ui:define>
+        <ui:define name="bottom">
+           <ui:include src="folder/bottom.xhtml"/>
+       </ui:define>
+    </ui:composition>
+    
+</html>
+

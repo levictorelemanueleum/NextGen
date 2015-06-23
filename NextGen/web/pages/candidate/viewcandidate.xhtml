@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <h:outputStylesheet name="css/style.css"/>
+        <f:event type="preRenderView" listener="#{sessionController.verifySession2()}"/>
+        <title>#{conf.ViewCandidateTitle}</title>
+    </h:head>
+        
+    <ui:composition template="../../templates/master.xhtml">
+        
+        <ui:define name="top">
+            <ui:include src="../../folder/top.xhtml"/>
+        </ui:define>
+        
+        <ui:define name="menu">
+            <ui:include src="../../folder/menu.xhtml"/>
+        </ui:define>
+
+        <ui:define name="left">
+             <p:outputPanel layout="block" styleClass="ui-grid-col-12" >
+                <h:form>
+                    <b:buttonGroup>
+                        <b:commandButton action="#{candidateController.prepareEdit(candidateController.selected.idcandidate)}" 
+                                value="#{conf.StatecostUpdateLink}" rendered="#{loginController.selected.type=='1'}"
+                                ajax="false" look="success" size="sm"/>
+                        <b:commandButton action="#{candidateController.prepareList}" value="#{conf.CandidateShowAllLink}" 
+                                 look="success" size="sm" ajax="false"/>
+                        </b:buttonGroup>
+                </h:form>
+            </p:outputPanel>
+        </ui:define>
+        
+        <ui:define name="title">
+            <h:outputText value="#{conf.ViewCandidateTitle}" />
+        </ui:define>
+        <ui:define name="content">
+            <p:separator></p:separator>
+            <h:panelGroup id="messagePanel" layout="block">
+                <p:messages closable="true" />
+            </h:panelGroup>
+            
+            <p:panelGrid columns="2">
+                <p:outputLabel value="#{conf.CandidateLabel_idcandidate}" styleClass="labelview"/>
+                <p:outputLabel value="#{candidateController.selected.idcandidate}" 
+                               title="#{conf.CandidateTitle_idcandidate}" styleClass="dataview"/>
+                <p:outputLabel value="#{conf.CandidateLabel_name}" styleClass="labelview"/>
+                <p:outputLabel value="#{candidateController.selected.name}" 
+                               title="#{conf.CandidateTitle_name}" styleClass="dataview"/>
+                <p:outputLabel value="#{conf.CandidateLabel_degree}" styleClass="labelview"/>
+                <p:outputLabel value="#{candidateController.selected.degree}" 
+                               title="#{conf.CandidateTitle_degree}" styleClass="dataview"/>
+                <p:outputLabel value="#{conf.CandidateLabel_nationality}" styleClass="labelview"/>
+                <p:outputLabel value="#{candidateController.selected.nationality}" 
+                               title="#{conf.CandidateTitle_nationality}" styleClass="dataview"/>
+                <p:outputLabel value="#{conf.CandidateLabel_dateofbirth}" styleClass="labelview"/>
+                <p:outputLabel value="#{candidateController.birthdetail}" 
+                               title="#{conf.CandidateTitle_dateofbirth}" styleClass="dataview"/>
+                <p:outputLabel value="#{conf.CandidateLabel_gender}" styleClass="labelview"/>
+                <p:outputLabel value="#{candidateController.genderdetail}" 
+                               title="#{conf.CandidateTitle_gender}" styleClass="dataview"/>
+                <p:outputLabel value="#{conf.CandidateLabel_address}" styleClass="labelview"/>
+                <p:outputLabel value="#{candidateController.selected.address}" 
+                               title="#{conf.CandidateTitle_address}" styleClass="dataview"/>
+                <p:outputLabel value="#{conf.CandidateLabel_email}" styleClass="labelview"/>
+                <p:outputLabel value="#{candidateController.selected.email}"
+                               title="#{conf.CandidateTitle_email}" styleClass="dataview"/>
+                <p:outputLabel value="#{conf.CandidateLabel_telephone}" styleClass="labelview"/>
+                <p:outputLabel value="#{candidateController.selected.telephone}" 
+                               title="#{conf.CandidateTitle_telephone}" styleClass="dataview"/>
+                <p:outputLabel value="#{conf.CandidateLabel_maritalstatus}" styleClass="labelview"/>
+                <p:outputLabel value="#{candidateController.maritaldetail}" 
+                               title="#{conf.CandidateTitle_maritalstatus}" styleClass="dataview"/>
+                <p:outputLabel value="#{conf.CandidateLabel_startingdate}" styleClass="labelview"/>
+                <p:outputLabel value="#{candidateController.startdetail}" 
+                               title="#{conf.CandidateTitle_startingdate}" styleClass="dataview"/>
+            </p:panelGrid>
+        </ui:define>
+        
+        <ui:define name="bottom">
+            <ui:include src="../../folder/bottom.xhtml"/>
+        </ui:define>
+        
+    </ui:composition>
+
+</html>

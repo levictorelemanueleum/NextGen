@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <h:outputStylesheet name="css/style.css"/>
+        <!--<f:event type="preRender" listener="#{sessionController.verifySession2()}"/>-->
+        <title>#{conf.CostsheetTitle}</title>
+    </h:head>
+    <ui:composition template="../../templates/master.xhtml">
+        
+        <ui:define name="top">
+            <ui:include src="../../folder/top.xhtml"/>
+        </ui:define>
+        
+        <ui:define name="menu">
+            <ui:include src="../../folder/menu.xhtml"/>
+        </ui:define>
+
+        <ui:define name="left">
+             <p:outputPanel layout="block" styleClass="ui-grid-col-12" >
+                <h:form>
+                    <b:buttonGroup>
+                        <b:commandButton action="#{costsheetController.prepareList}" value="#{conf.CostsheetShowAllLink}" 
+                                         look="success" size="sm" ajax="false"/>
+                    </b:buttonGroup>
+                </h:form>
+             </p:outputPanel>
+        </ui:define>
+        
+        <ui:define name="title">
+            <h:outputText value="#{conf.ViewCostsheetTitle}" />
+        </ui:define>
+        <ui:define name="content">
+            <p:separator></p:separator>
+            <h:panelGroup id="messagePanel" layout="block">
+                <p:messages closable="true" />
+            </h:panelGroup>
+            
+            <p:panelGrid columns="1" id="print">
+                    <p:fieldset legend="Project Information" styleClass="border">
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="#{conf.CostsheetLabel_idcostsheet}" styleClass="labelview"/>
+                        <p:outputLabel value="#{costsheetController.selected.idcostsheet}" 
+                                   title="#{conf.CostsheetTitle_idcostsheet}" styleClass="dataview"/>
+                        <p:column/>
+                        <p:column/>
+                        <p:outputLabel value="#{conf.CostsheetLabel_typecostsheet}" styleClass="labelview"/>
+                        <p:outputLabel value="#{costsheetController.costsheetdetail}" 
+                                   title="#{conf.CostsheetTitle_typecostsheet}" styleClass="dataview"/>
+                        <p:column/>
+                        <p:column/>
+                        <p:outputLabel value="#{conf.CostsheetLabel_date}" styleClass="labelview"/>
+                        <p:outputLabel value="#{costsheetController.selected.date}" 
+                                   title="#{conf.CostsheetTitle_date}" styleClass="dataview">
+                            <f:convertDateTime pattern="EEEE, dd MMM, yyyy" locale="en" />
+                        </p:outputLabel>
+                        <p:column/>                    
+                        <p:column/>
+                        <p:outputLabel value="#{conf.CostsheetLabel_accountmanager}" styleClass="labelview"/>
+                        <p:outputLabel value="#{costsheetController.selected.acountmanager}"
+                                   title="#{conf.CostsheetTitle_accountmanager}" styleClass="dataview"/>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_recruiter}" styleClass="labelview"/>
+                        <p:outputLabel value="#{costsheetController.selected.recruites}" 
+                                   title="#{conf.CostsheetTitle_recruiter}" styleClass="dataview"/>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_srprojectnumber}" styleClass="labelview"/>
+                        <p:outputLabel value="#{costsheetController.selected.srprojectnumber}" 
+                                   title="#{conf.CostsheetTitle_srprojectnumber}" styleClass="dataview"/>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_startdate}" styleClass="labelview"/>
+                        <p:outputLabel value="#{costsheetController.selected.startdate}" 
+                                  title="#{conf.CostsheetTitle_startdate}" styleClass="dataview">
+                            <f:convertDateTime pattern="EEEE, dd MMM, yyyy" locale="en" />
+                        </p:outputLabel>
+                        <p:column/><p:column/>
+                        <p:outputLabel value="#{conf.CostsheetLabel_enddate}" styleClass="labelview"/>
+                        <p:outputLabel value="#{costsheetController.selected.enddate}" 
+                                  title="#{conf.CostsheetTitle_enddate}" styleClass="dataview">
+                            <f:convertDateTime pattern="EEEE, dd MMM, yyyy" locale="en" />
+                        </p:outputLabel>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_payrate}" styleClass="labelview"/>
+                        <p:outputLabel value="$ #{costsheetController.selected.payrate}" 
+                                  title="#{conf.CostsheetTitle_payrate}" styleClass="dataview"/>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_billrate}" styleClass="labelview"/>
+                        <p:outputLabel value="$ #{costsheetController.selected.billrate}" 
+                                  title="#{conf.CostsheetTitle_billrate}" styleClass="dataview"/>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_idparameter}" styleClass="labelview"/>
+                        <p:outputLabel value="#{costsheetController.employeedetail}" 
+                                  title="#{conf.CostsheetTitle_idparameter}" styleClass="dataview"/>
+                        
+                        <p:outputLabel value="#{conf.CostsheetLabel_overtimestatus}" styleClass="labelview"/>
+                        <p:outputLabel value="#{costsheetController.overtimedetail}" 
+                                  title="#{conf.CostsheetTitle_overtimestatus}" styleClass="dataview"/>
+                    
+                        <p:outputLabel value="#{conf.CostsheetLabel_statename}" styleClass="labelview"/>
+                        <p:outputLabel value="#{costsheetController.statedetail}" 
+                                  title="#{conf.CostsheetTitle_statename}" styleClass="dataview"/>
+                    
+                        <p:outputLabel value="#{conf.CostsheetLabel_stateload}" styleClass="labelview"/>
+                        <p:outputLabel value="#{costsheetController.selected.stateload}" 
+                                  title="#{conf.CostsheetTitle_stateload} %" styleClass="dataview"/>
+                    
+                    </p:panelGrid>
+                    </p:fieldset>
+                    
+                    <p:fieldset legend="Additional costs/expenses" styleClass="border">
+                        <p:panelGrid columns="2" layout="grid" rendered="#{costsheetController.selected.additionalcost=='1'}">
+                            <p:fieldset legend="PIER DIEM">
+                                <p:panelGrid columns="2">
+                                    <p:outputLabel value="#{conf.CostsheetLabel_pdtypeofrate}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.pdtypeofratedetail}" 
+                                        title="#{conf.CostsheetTitle_pdtypeofrate}" styleClass="dataview"/>
+                                    
+                                    <p:outputLabel value="#{conf.CostsheetLabel_pdrate}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.pdrate}" 
+                                        title="#{conf.CostsheetTitle_pdrate}" styleClass="dataview"/>
+                                    
+                                    <p:outputLabel value="#{conf.CostsheetLabel_pdlengtth}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.pdlengtth}" 
+                                        title="#{conf.CostsheetTitle_pdlengtth}" styleClass="dataview"/>
+                    
+                                    <p:outputLabel value="#{conf.CostsheetLabel_pddatebegin}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.pddatebegin}" 
+                                        title="#{conf.CostsheetTitle_pddatebegin}" styleClass="dataview">
+                                        <f:convertDateTime pattern="EEEE, dd MMM, yyyy" locale="en" />
+                                    </p:outputLabel>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_pddeletecostdate}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.pddeletecostdate}" 
+                                        title="#{conf.CostsheetTitle_pddeletecostdate}" styleClass="dataview">
+                                        <f:convertDateTime pattern="EEEE, dd MMM, yyyy" locale="en" />
+                                    </p:outputLabel>
+                                    
+                                    <p:outputLabel value="#{conf.CostsheetLabel_pdhrcostamort}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.pdhrcostamort}" 
+                                        title="#{conf.CostsheetTitle_pdhrcostamort}" styleClass="dataview"/>
+                                    
+                                    <p:outputLabel value="#{conf.CostsheetLabel_pdtotal}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.pdtotal}" 
+                                        title="#{conf.CostsheetTitle_pdtotal}" styleClass="dataview"/>
+                                    </p:panelGrid>
+                            </p:fieldset>
+                            
+                            <p:fieldset legend="Relocation">
+                                <p:panelGrid columns="2">
+                                    <p:outputLabel value="#{conf.CostsheetLabel_rtype}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.rtypedetail}" 
+                                        title="#{conf.CostsheetTitle_rtype}" styleClass="dataview"/>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_ramount}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.ramount}" 
+                                        title="#{conf.CostsheetTitle_ramount}" styleClass="dataview"/>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_rdeletecostdate}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.rdeletecostdate}"
+                                        title="#{conf.CostsheetTitle_rdeletecostdate}" styleClass="dataview">
+                                        <f:convertDateTime pattern="EEEE, dd MMM, yyyy" locale="en" />
+                                    </p:outputLabel>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_rhrcostamort}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.rhrcostamort}" 
+                                        title="#{conf.CostsheetTitle_rhrcostamort}" styleClass="dataview"/>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_rtotal}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.rtotal}" 
+                                        title="#{conf.CostsheetTitle_rtotal}" styleClass="dataview"/>
+                                    </p:panelGrid>
+                            </p:fieldset>
+                            
+                            <p:fieldset legend="TRAVEL&amp;LODGING">
+                                <p:panelGrid columns="2">
+                                    <p:outputLabel value="#{conf.CostsheetLabel_tlairfare}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.tlairfare}" 
+                                        title="#{conf.CostsheetTitle_tlairfare}" styleClass="dataview"/>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_tlhotel}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.tlhotel}"
+                                        title="#{conf.CostsheetTitle_tlhotel}" styleClass="dataview"/>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_tlauto}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.tlauto}" 
+                                        title="#{conf.CostsheetTitle_tlauto}" styleClass="dataview"/>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_tlmeals}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.tlmeals}" 
+                                        title="#{conf.CostsheetTitle_tlmeals}" styleClass="dataview"/>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_tldeletecostdate}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.tldeletecostdate}" 
+                                        title="#{conf.CostsheetTitle_tldeletecostdate}" styleClass="dataview">
+                                        <f:convertDateTime pattern="EEEE, dd MMM, yyyy" locale="en" />
+                                    </p:outputLabel>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_tlhrcostamort}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.tlhrcostamort}"
+                                        title="#{conf.CostsheetTitle_tlhrcostamort}" styleClass="dataview"/>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_tltotal}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.tltotal}" 
+                                        title="#{conf.CostsheetTitle_tltotal}" styleClass="dataview"/>
+                                </p:panelGrid>
+                            </p:fieldset>
+                            
+                            <p:fieldset legend="REFERRAL FEE">
+                                <p:panelGrid columns="2">
+                                    <p:outputLabel value="#{conf.CostsheetLabel_rftype}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.rftype}" 
+                                        title="#{conf.CostsheetTitle_rftype}" styleClass="dataview"/>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_rfamount}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.rfamount}" 
+                                        title="#{conf.CostsheetTitle_rfamount}" styleClass="dataview"/>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_rfdeletecostdate}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.rfdeletecostdate}" 
+                                        title="#{conf.CostsheetTitle_rfdeletecostdate}" styleClass="dataview">
+                                        <f:convertDateTime pattern="EEEE, dd MMM, yyyy" locale="en" />
+                                    </p:outputLabel>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_rfhrcostamort}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.rfhrcostamort}" 
+                                        title="#{conf.CostsheetTitle_rfhrcostamort}" styleClass="dataview"/>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_rftotal}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.rftotal}" 
+                                        title="#{conf.CostsheetTitle_rftotal}" styleClass="dataview"/>
+                                </p:panelGrid>
+                            </p:fieldset>
+                            
+                            <p:fieldset legend="THIRD PARTY FEE">
+                                <p:panelGrid columns="2">
+                                    <p:outputLabel value="#{conf.CostsheetLabel_tpf}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.tpf}" 
+                                        title="#{conf.CostsheetTitle_tpf}" styleClass="dataview"/>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_tpfdeletecostdate}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.tpfdeletecostdate}" 
+                                        title="#{conf.CostsheetTitle_tpfdeletecostdate}" styleClass="dataview">
+                                        <f:convertDateTime pattern="EEEE, dd MMM, yyyy" locale="en" />
+                                    </p:outputLabel>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_tpfhrcostamort}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.tpfhrcostamort}" 
+                                        title="#{conf.CostsheetTitle_tpfhrcostamort}" styleClass="dataview"/>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_tpftotal}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.tpftotal}" 
+                                        title="#{conf.CostsheetTitle_tpftotal}" styleClass="dataview"/>
+                                </p:panelGrid>
+                            </p:fieldset>
+                            
+                            <p:fieldset legend="VISA TRANSFER">
+                                <p:panelGrid columns="2">
+                                    <p:outputLabel value="#{conf.CostsheetLabel_vcost}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.vcost}" 
+                                        title="#{conf.CostsheetTitle_vcost}" styleClass="dataview"/>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_vdeletecostdate}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.vdeletecostdate}" 
+                                        title="#{conf.CostsheetTitle_vdeletecostdate}" styleClass="dataview">
+                                        <f:convertDateTime pattern="EEEE, dd MMM, yyyy" locale="en" />
+                                    </p:outputLabel>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_vhrcostamort}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.vhrcostamort}" 
+                                        title="#{conf.CostsheetTitle_vhrcostamort}" styleClass="dataview"/>
+                                    
+                                    <p:outputLabel value="#{conf.CostsheetLabel_vtotal}" styleClass="labelview" />
+                                    <p:outputLabel value="#{costsheetController.selected.vtotal}"
+                                         title="#{conf.CostsheetTitle_vtotal}" styleClass="dataview"/>
+                                    
+                                </p:panelGrid>
+                            </p:fieldset>
+                            <p:column/>
+                            <p:column>
+                                <p:outputLabel value="#{conf.CostsheetLabel_totaladditionalcost}" styleClass="labelview"/>
+                                <p:outputLabel value="#{costsheetController.selected.totaladditionalcost}" 
+                                  title="#{conf.CostsheetTitle_totaladditionalcost}" styleClass="dataview"/>
+                            </p:column>
+                        </p:panelGrid>
+                        <!--<p:panelGrid columns="4">
+                                
+                        </p:panelGrid>-->
+                    </p:fieldset>
+                    
+                <p:fieldset legend="FINANTIAL INFORMATION" styleClass="border">
+                    <p:panelGrid columns="2" layout="grid">
+                            <p:panelGrid columns="2" layout="grid">
+                                <p:outputLabel value="#{conf.CostsheetLabel_clientname}" styleClass="labelview"/>
+                                <p:outputLabel value="#{costsheetController.selected.idclient.clientname}" 
+                                  title="#{conf.CostsheetTitle_clientname}" styleClass="dataview"/>
+                                
+                                <p:outputLabel value="#{conf.CostsheetLabel_payclass}" styleClass="labelview"/>
+                                <p:outputLabel value="#{costsheetController.employeedetail}" 
+                                    title="#{conf.CostsheetTitle_payclass}" styleClass="dataview"/>
+                                
+                                <p:outputLabel value="#{conf.CostsheetLabel_otpayrate}" styleClass="labelview"/>
+                                <p:outputLabel value="#{costsheetController.selected.otpayrate}" 
+                                    title="#{conf.CostsheetTitle_otpayrate}" styleClass="dataview"/>
+                                
+                                <p:outputLabel value="#{conf.CostsheetLabel_otbillrate}" styleClass="labelview"/>
+                                <p:outputLabel value="#{costsheetController.selected.otbillrate}" 
+                                    title="#{conf.CostsheetTitle_otbillrate}" styleClass="dataview"/>
+                                
+                                <p:outputLabel value="#{conf.CostsheetLabel_discountbillrate}" styleClass="labelview"/>
+                                <p:outputLabel value="#{costsheetController.selected.discountbillrate}" 
+                                    title="#{conf.CostsheetTitle_discountbillrate}" styleClass="dataview"/>
+                                
+                                <p:outputLabel value="#{conf.CostsheetLabel_discountotbillrate}" styleClass="labelview"/>
+                                <p:outputLabel value="#{costsheetController.selected.discountotbillrate}" 
+                                    title="#{conf.CostsheetTitle_discountotbillrate}" styleClass="dataview"/>
+                            </p:panelGrid>
+                            
+                            <p:panelGrid columns="1" layout="grid">
+                                <p:panelGrid columns="2">
+                                    <p:outputLabel value="#{conf.CostsheetLabel_actualcost}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.actualcost}"
+                                        title="#{conf.CostsheetTitle_actualcost}" styleClass="dataview"/>
+                                    <p:outputLabel value="#{conf.CostsheetLabel_totalhourlycost}" styleClass="labelview"/>
+                                    <p:outputLabel value="#{costsheetController.selected.totalhourlycost}" 
+                                        title="#{conf.CostsheetTitle_totalhourlycost}" styleClass="dataview"/>
+                                </p:panelGrid>
+                                
+                                <p:fieldset legend="Resume">
+                                    <p:panelGrid columns="2">
+                                        <p:outputLabel value="#{conf.CostsheetLabel_hourlygrossprofit}" styleClass="labelview"/>
+                                        <p:outputLabel value="#{costsheetController.selected.hourlygrossprofit}" 
+                                            title="#{conf.CostsheetTitle_hourlygrossprofit}" styleClass="dataview"/>
+                                        <p:outputLabel value="#{conf.CostsheetLabel_grossmargin}" styleClass="labelview"/>
+                                        <p:outputLabel value="#{costsheetController.selected.grossmargin}" 
+                                            title="#{conf.CostsheetTitle_grossmargin}" styleClass="dataview"/>
+                                        <p:outputLabel value="#{conf.CostsheetLabel_discountgrossprofit}" styleClass="labelview"/>
+                                        <p:outputLabel value="#{costsheetController.selected.discountgrossprofit}" 
+                                            title="#{conf.CostsheetTitle_discountgrossprofit}" styleClass="dataview"/>
+                                        <p:outputLabel value="#{conf.CostsheetLabel_discountgrossmargin}" styleClass="labelview"/>
+                                        <p:outputLabel value="#{costsheetController.selected.discountgrossmargin}" 
+                                            title="#{conf.CostsheetTitle_discountgrossmargin}" styleClass="dataview"/>
+                                    </p:panelGrid>
+                                </p:fieldset>
+                                
+                            </p:panelGrid>
+                        </p:panelGrid>
+                        
+                        
+                    </p:fieldset>
+                    
+                    
+                    
+                   <!-- 
+                    
+                   
+                    
+                    
+                    
+                    <h:outputText value="#{conf.CostsheetLabel_idcandidate}" styleClass="labelview"/>
+                    <p:outputLabel value="#{costsheetController.selected.idcandidate}" 
+                                  title="#{conf.CostsheetTitle_idcandidate}" styleClass="dataview"/>
+                    
+                    -->
+                  </p:panelGrid>
+            <h:form>
+                    <p:commandButton value="Print">
+                        <p:printer target="print" />
+                    </p:commandButton>
+            </h:form>
+            </ui:define>
+                <ui:define name="bottom">
+            <ui:include src="../../folder/bottom.xhtml"/>
+        </ui:define>
+    </ui:composition>
+</html>

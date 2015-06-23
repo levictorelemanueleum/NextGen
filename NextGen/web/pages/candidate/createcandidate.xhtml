@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <h:outputStylesheet name="css/style.css"/>
+        <f:event type="preRenderView" listener="#{sessionController.verifySession2()}"/>
+        <title>#{conf.CreateCandidateTitle}</title>
+    </h:head>
+        
+    <ui:composition template="../../templates/master.xhtml">
+        
+        <ui:define name="top">
+            <ui:include src="../../folder/top.xhtml"/>
+        </ui:define>
+        
+        <ui:define name="menu">
+            <ui:include src="../../folder/menu.xhtml"/>
+        </ui:define>
+
+        <ui:define name="left">
+             <p:outputPanel layout="block" styleClass="ui-grid-col-12" >
+                <h:form>
+                    <b:buttonGroup>
+                        <b:commandButton action="#{candidateController.prepareList}" look="success" size="sm" 
+                                         value="#{conf.CandidateShowAllLink}" ajax="false"/>                    
+                    </b:buttonGroup>
+                </h:form>
+             </p:outputPanel>
+        </ui:define>
+        
+        <ui:define name="title">
+            <h:outputText value="#{conf.CreateCandidateTitle}" />
+        </ui:define>
+        <ui:define name="content">
+            <p:separator></p:separator>
+            <h:panelGroup id="messagePanel" layout="block">
+                <p:messages closable="true" />
+            </h:panelGroup>
+            <h:form>              
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="#{conf.CandidateLabel_name}" for="name" />
+                    <p:inputText id="name" value="#{candidateController.selected.name}" 
+                                 title="#{conf.CandidateTitle_name}"
+                                 style="text-transform: uppercase" 
+                                 required="true" styleClass="input"
+                                 requiredMessage="#{conf.CandidateRequiredMessage_name}"
+                                 converter="UpperCaseConverter" maxlength="100"/>
+                    
+                    <p:outputLabel value="#{conf.CandidateLabel_degree}" for="degree" />
+                    <p:inputText id="degree" value="#{candidateController.selected.degree}" 
+                                 title="#{conf.CandidateTitle_degree}" required="true" 
+                                 requiredMessage="#{conf.CandidateRequiredMessage_degree}"
+                                 converter="UpperCaseConverter"
+                                 style="text-transform: uppercase" maxlength="100"/>
+                    
+                    <p:outputLabel value="#{conf.CandidateLabel_nationality}" for="nationality" />
+                    <p:selectOneMenu id="nationality" value="#{candidateController.selected.nationality}">
+                        <f:selectItems value="#{additionalData.nations}"/>
+                    </p:selectOneMenu>
+                    
+                    <p:outputLabel value="#{conf.CandidateLabel_dateofbirth}" for="dateofbirth" />
+                    <p:calendar id="dateofbirth"
+                                value="#{candidateController.selected.dateofbirth}"
+                                yearRange="c-100:c" navigator="true"
+                                title="#{conf.CandidateTitle_dateofbirth}" 
+                                maxdate="#{candidateController.maxdate}" readonlyInput="true"
+                                required="true" pattern="MMM dd, yyyy"
+                                requiredMessage="#{conf.CandidateRequiredMessage_dateofbirth}"/>
+                    <p:outputLabel value="#{conf.CandidateLabel_gender}" for="gender" />
+                    <p:column>
+                        <p:selectOneRadio required="true" id="gender" value="#{candidateController.selected.gender}"
+                                 requiredMessage="#{conf.CandidateRequiredMessage_gender}">
+                            <f:selectItem itemLabel="FEMALE" itemValue="0" /><p:separator/>
+                            <f:selectItem itemLabel="MALE" itemValue="1" />
+                        </p:selectOneRadio>
+                    </p:column>
+                    
+                    <p:outputLabel value="#{conf.CandidateLabel_address}" for="address" />
+                    <p:inputText id="address" value="#{candidateController.selected.address}" 
+                                 title="#{conf.CandidateTitle_address}" required="true" 
+                                 requiredMessage="#{conf.CandidateRequiredMessage_address}" styleClass="input"
+                                 converter="UpperCaseConverter"
+                                 style="text-transform: uppercase" maxlength="100"/>
+                    
+                    <p:outputLabel value="#{conf.CandidateLabel_email}" for="email" />
+                    <p:inputText id="email" value="#{candidateController.selected.email}" 
+                                 title="#{conf.CandidateTitle_email}" required="true" 
+                                 requiredMessage="#{conf.CandidateRequiredMessage_email}" styleClass="input"
+                                 validatorMessage="Invalid email format" maxlength="100">
+                                 <f:validateRegex
+		pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                    </p:inputText>
+                    
+                    <p:outputLabel value="#{conf.CandidateLabel_telephone}" for="telephone" />
+                    <p:inputMask mask="(999) 999-9999" id="telephone" value="#{candidateController.selected.telephone}" 
+                                 title="#{conf.CandidateTitle_telephone}" required="true" 
+                                 requiredMessage="#{conf.CandidateRequiredMessage_telephone}">
+                    </p:inputMask>
+                    
+                    <p:outputLabel value="#{conf.CandidateLabel_maritalstatus}" for="maritalstatus" />
+                    <p:selectOneMenu id="maritalstatus" value="#{candidateController.selected.maritalstatus}">
+                        <f:selectItems value="#{additionalData.maritals}"/>
+                    </p:selectOneMenu>
+                    <p:column/>
+                    <p:commandButton styleClass="btn" action="#{candidateController.create()}" 
+                                     value="#{conf.SaveBtn}" ajax="false" />
+                </h:panelGrid>        
+            </h:form>
+        </ui:define>
+        
+        <ui:define name="bottom">
+            <ui:include src="../../folder/bottom.xhtml"/>
+        </ui:define>
+        
+    </ui:composition>
+
+</html>
